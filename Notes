@@ -1,0 +1,79 @@
+Java SQLite
+
+Contents:
+General Notes
+Tables
+Scenes
+
+To do:
+Let user pick name from list?
+
+General Notes:
+Preferable Weekend Project
+Youtube SQLite Android tutorial - SQLite + Android - Create Database Schema (Book Library App) | Part 1
+ControlActivity - Full control over all settings/Test
+
+Table: User
+UserId
+Name
+Password
+Age
+Description
+Logo/Img
+Colour Schema
+
+Table: Group
+Columns: groupId, name
+
+Table: Group_User_X
+Columns: groupId, userId
+
+Table: Message
+Columns: messageId, senderUserId, groupId, content
+
+
+
+Scene Main:
+Basic Title
+Basic Logo
+Allow the user to Sign In
+Allow the user to Sign Up
+
+Scene Sign Up:
+Add Name
+Add Password
+Add Age
+Add Description - Likes/Dislikes
+Choose/Add Logo/Img (Selection of choices or add)
+Choose Colour Schema
+
+Scene Sign In:
+Check Name
+Check Password (Leave blank if no password)
+
+Scene Profile:
+Show NameShow
+Show Password
+Show Age
+Show Description
+Show Logo/Img
+Show Colour Schema
+
+Scene Settings:
+Change Colour Schema
+Change Logo/Img
+Change Name
+Change Password
+Change Age
+Change Description
+
+Scene Chat:
+Allow user to send and look at messages
+Allow user to scroll up and down messages
+
+Scene Display:
+Show prompt to Log Out, Profile, Settings
+Show notifications
+Show link to group chat
+Show link to chat with other users (click link to chat)
+-Other users are shown with their own colour schema
