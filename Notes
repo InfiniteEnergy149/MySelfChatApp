@@ -5,13 +5,11 @@ General Notes
 Tables
 Scenes
 
-To do:
-Let user pick name from list?
-
 General Notes:
-Preferable Weekend Project
-Youtube SQLite Android tutorial - SQLite + Android - Create Database Schema (Book Library App) | Part 1
-ControlActivity - Full control over all settings/Test
+Create notifications
+Create group chats
+Let user pick name from list? (To log in)
+
 
 Table: User
 UserId

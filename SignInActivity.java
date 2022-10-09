@@ -3,6 +3,7 @@ package com.example.myselfchatapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,8 @@ public class SignInActivity extends AppCompatActivity {
                      //Send User to displayActivity scene
                      Intent myIntent = new Intent(SignInActivity.this,DisplayActivity.class);
                      //Pass currentUserId to next activity
-                     myIntent.putExtra("userId",currentUserId);
+
+                     myIntent.putExtra("userId",currentUserId.toString());
                      startActivity(myIntent);
                  }else { //Username and Password are in records - Error Alert
                      AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
