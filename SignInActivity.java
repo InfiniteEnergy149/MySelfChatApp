@@ -30,7 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         signInClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cursor res = DB.getData();
+                Cursor res = DB.getUserData();
                 if(res.getCount()==0){
                     Toast.makeText(SignInActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
                     return;

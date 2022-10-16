@@ -3,18 +3,27 @@ package com.example.myselfchatapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class SignUpActivity extends AppCompatActivity {
     EditText name, password, age, description, logo, colour;
     Button insert, update, delete, view;
     DBHelper DB;
+    Spinner spinDropLogoList,spinDropColourList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,15 +31,25 @@ public class SignUpActivity extends AppCompatActivity {
        /*update = findViewById(R.id.btnUpdate);
         delete = findViewById(R.id.btnDelete);*/
 
+
+
         name = findViewById(R.id.nameEnter);
         password = findViewById(R.id.passwordEnter);
         age = findViewById(R.id.ageEnter);
         description = findViewById(R.id.descriptionEnter);
-        logo = findViewById(R.id.logoEnter);
-        colour = findViewById(R.id.colourEnter);
-
         insert = findViewById(R.id.addUserBtn);
         view = findViewById(R.id.showDataBtn);
+
+
+        spinDropLogoList = findViewById(R.id.logoDropList);
+        ArrayAdapter<CharSequence> dropLogoListAdapter=ArrayAdapter.createFromResource(this, R.array.dropLogoMenu, android.R.layout.simple_spinner_item);
+        dropLogoListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinDropLogoList.setAdapter(dropLogoListAdapter);
+
+        spinDropColourList = findViewById(R.id.colourDropList);
+        ArrayAdapter<CharSequence> dropColourListAdapter=ArrayAdapter.createFromResource(this, R.array.dropColourMenu, android.R.layout.simple_spinner_item);
+        dropColourListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinDropColourList.setAdapter(dropColourListAdapter);
 
         DB = new DBHelper(this);
         insert.setOnClickListener(new View.OnClickListener() {
@@ -40,15 +59,26 @@ public class SignUpActivity extends AppCompatActivity {
                 String passwordTXT = password.getText().toString();
                 Integer ageTXT = Integer.valueOf(age.getText().toString());
                 String descriptionTXT = description.getText().toString();
-                String logoTXT = logo.getText().toString();
-                String colourTXT = colour.getText().toString();
-
-                Boolean checkInsertData = DB.insertUserData(nameTXT, passwordTXT, ageTXT, descriptionTXT, logoTXT, colourTXT);
-                if(checkInsertData==true)
-                    Toast.makeText(SignUpActivity.this, "New Entry Inserted", Toast.LENGTH_SHORT).show();
-                else
+                String logoTXT = spinDropLogoList.getSelectedItem().toString();
+                String colourTXT = spinDropColourList.getSelectedItem().toString();
+                //Add tables to group and groupUserX
+                createUserGroups(nameTXT,DB);
+                if ((Integer.valueOf(age.getText().toString()) instanceof Integer)) {
+                    Boolean checkInsertData = DB.insertUserData(nameTXT, passwordTXT, ageTXT, descriptionTXT, logoTXT, colourTXT);
+                    if (checkInsertData == true) {
+                        Toast.makeText(SignUpActivity.this, "New Entry Inserted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(SignUpActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
-            }        });
+
+                }
+
+                Intent myIntent = new Intent(SignUpActivity.this,SignInActivity.class);
+                startActivity(myIntent);
+            }
+        });
        /* update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cursor res = DB.getData();
+                Cursor res = DB.getUserData();
                 if(res.getCount()==0){
                     Toast.makeText(SignUpActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
                     return;
@@ -97,5 +127,46 @@ public class SignUpActivity extends AppCompatActivity {
                 builder.setTitle("User Entries");
                 builder.setMessage(buffer.toString());
                 builder.show();
-            }        });
-    }}
+            }
+        });
+
+
+    }
+    public void createUserGroups(String name, DBHelper DB){
+        //ArrayList of all user data
+        ArrayList<String> holdUsers = new ArrayList<>();
+        ArrayList<ArrayList<String>> sortUsers = new ArrayList<>();
+        Integer newUserId = 0;
+        Cursor resGetUser = DB.getUserData();
+        String newUserName = name;
+
+        while (resGetUser.moveToNext()) {
+            holdUsers.add(resGetUser.getString(0));
+            holdUsers.add(resGetUser.getString(1));
+            holdUsers.add(resGetUser.getString(2));
+            holdUsers.add(resGetUser.getString(3));
+            holdUsers.add(resGetUser.getString(4));
+            holdUsers.add(resGetUser.getString(5));
+            holdUsers.add(resGetUser.getString(6));
+            sortUsers.add(holdUsers);
+            holdUsers = new ArrayList<>();
+            newUserId = Integer.valueOf(resGetUser.getString(0))+1;
+        }
+
+
+        Cursor resNewGroup = DB.getGroupData();
+        Integer lastGroupId;
+        for (int i = 0; i < sortUsers.size(); i++) {
+            //Alphabetical order in naming of groups
+            List<String> newNames = Arrays.asList(sortUsers.get(i).get(1),newUserName);
+            Collections.sort(newNames);
+                DB.insertGroupData(newNames.get(0) + " & " + newNames.get(1));
+                resNewGroup = DB.getGroupData();
+                resNewGroup.moveToLast();
+                lastGroupId = resNewGroup.getInt(0);
+                DB.insertGroupUserXData(Integer.valueOf(sortUsers.get(i).get(0)), lastGroupId, "");
+                DB.insertGroupUserXData(newUserId, lastGroupId, "");
+            }
+        }
+
+}

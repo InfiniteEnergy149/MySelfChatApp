@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         //To signIn Scene
         Button signInClick = (Button) findViewById(R.id.signInBtn);
         signInClick.setOnClickListener(new View.OnClickListener() {

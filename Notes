@@ -6,9 +6,12 @@ Tables
 Scenes
 
 General Notes:
-Create notifications
-Create group chats
 Let user pick name from list? (To log in)
+1 on 1 chats
+main group chat (everyone)
+see notifications
+create/delete smaller group chats
+No duplicate names
 
 
 Table: User
