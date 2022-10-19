@@ -49,11 +49,11 @@
 
     <Button
         android:id="@+id/groupChatBtn"
-        android:layout_width="274dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:text="GROUP CHAT"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="371dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="EVERYONE GROUP CHAT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeUser" />
 

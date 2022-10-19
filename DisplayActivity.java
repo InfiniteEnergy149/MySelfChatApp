@@ -24,9 +24,10 @@ public class DisplayActivity extends AppCompatActivity implements RecyclerViewIn
     String name,logo,colour;
     TextView welcome;
     Integer currentUserId;
-    Button logOutClick,profileClick;
+    Button logOutClick,profileClick,groupChatClick;
     DBHelper DB = new DBHelper(this);
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +67,36 @@ public class DisplayActivity extends AppCompatActivity implements RecyclerViewIn
             }
         });
 
+        //To group chat
+        groupChatClick =  findViewById(R.id.groupChatBtn);
+        groupChatClick.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent myIntent = new Intent(DisplayActivity.this,ChatActivity.class);
+                myIntent.putExtra("clickedId","0");
+                myIntent.putExtra("groupId","1");
+                myIntent.putExtra("userId",currentUserId.toString());
+                startActivity(myIntent);
+            }
+        });
 
     }
  public void setUserChatDisplays(){
      //RecyclerView of Users (logo(border- colour),name)
      Cursor res = DB.getUserData();
+     Cursor resA = DB.getUserData();
+     Cursor resGroup = DB.getGroupData();
+     Cursor resGroupUserX = DB.getGroupUserXData();
+     String thisUserName = "";
+     Integer thisGroupId = 0;
+     Integer userLastMessId = 0;
+     Integer groupLastMessId = 0;
+     Boolean newMessage = false;
+     //get user name
+     while(resA.moveToNext()){
+         if (resA.getString(0).equals(currentUserId.toString())) { //skip current user in chat list
+         thisUserName = resA.getString(1);
+         }
+     }
 
      while(res.moveToNext()){
          if (!res.getString(0).equals(currentUserId.toString())){ //skip current user in chat list
@@ -78,7 +104,45 @@ public class DisplayActivity extends AppCompatActivity implements RecyclerViewIn
              name = res.getString(1);
              logo = res.getString(5);
              colour = res.getString(6);
-             userChatDisplays.add(new UserChatDisplay(name,logo,colour));
+
+             //SET NOTIFICATION
+             //get groupId
+             resGroup= DB.getGroupData();
+             while(resGroup.moveToNext()){
+                 if (resGroup.getString(1).equals(name + " & " +thisUserName)||resGroup.getString(1).equals(thisUserName + " & " +name)){
+                     thisGroupId = resGroup.getInt(0);
+                 }
+             }
+             Log.d("last  groupID",thisGroupId.toString());
+             //get last message id from user
+             groupLastMessId = -2;
+             groupLastMessId = -1;
+             resGroupUserX = DB.getGroupUserXData();
+             while (resGroupUserX.moveToNext()){
+                 if (resGroupUserX.getString(2).equals(thisGroupId.toString())){
+
+                     if (resGroupUserX.getInt(3)>groupLastMessId) {
+                         groupLastMessId = resGroupUserX.getInt(3);
+                         Log.d("last count","hat");
+                     }
+                 }
+                 if (resGroupUserX.getString(2).equals(thisGroupId.toString())&& resGroupUserX.getString(1).equals(currentUserId.toString())){
+                         if (resGroupUserX.getInt(3)>userLastMessId) {
+                             userLastMessId = resGroupUserX.getInt(3);
+                         }
+                 }
+             }
+             Log.d("last message user", userLastMessId.toString());
+             Log.d("last message group",groupLastMessId.toString());
+
+             if (userLastMessId == groupLastMessId){
+                 newMessage = false;
+             }else{
+                 newMessage = true;
+             }
+
+
+             userChatDisplays.add(new UserChatDisplay(name,logo,colour,newMessage));
 
          }else{
              welcome.setText("Welcome : " + res.getString(1));
@@ -109,6 +173,7 @@ public class DisplayActivity extends AppCompatActivity implements RecyclerViewIn
         }
 
         intent.putExtra("clickedId",clickedUserId);//error
+        intent.putExtra("groupId","-1");
         startActivity(intent);
     }
 

@@ -1,6 +1,7 @@
 package com.example.myselfchatapp;
 
         import android.content.Context;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -60,7 +61,8 @@ package com.example.myselfchatapp;
     }
 
     private void recieveViewType(Chat_RecieveMyViewHolder holder, UserChatMessage userChatMessage) {
-            holder.tvRName.setText("Name : " + userChatMessage.getName());
+        Log.d("apple",userChatMessage.getName());
+        holder.tvRName.setText("Name : " + userChatMessage.getName()+"");
             switch (userChatMessage.getLogo()) {
                 case "arrow":
                     holder.tvRLogo.setImageResource(R.drawable.arrow);

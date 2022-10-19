@@ -21,24 +21,12 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="71dp"
+        android:layout_marginTop="87dp"
+        android:layout_marginBottom="90dp"
         android:text="Sign In Scene"
-        app:layout_constraintBottom_toTopOf="@+id/nameEnter"
+        app:layout_constraintBottom_toTopOf="@+id/nameEnterList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/nameEnter"
-        android:layout_width="244dp"
-        android:layout_height="69dp"
-        android:layout_marginTop="179dp"
-        android:layout_marginBottom="27dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name Enter"
-        app:layout_constraintBottom_toTopOf="@+id/passwordEnter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,24 +34,23 @@
         android:id="@+id/passwordEnter"
         android:layout_width="235dp"
         android:layout_height="59dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="46dp"
+        android:layout_marginTop="39dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/signInBtn"
+        android:text="Enter Password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.812"
+        app:layout_constraintHorizontal_bias="0.778"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameEnter" />
+        app:layout_constraintTop_toBottomOf="@+id/nameEnterList" />
 
     <Button
         android:id="@+id/signInBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="44dp"
         android:text="Sign In"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEnter" />
 
@@ -80,6 +67,15 @@
         app:layout_constraintEnd_toStartOf="@+id/nameEnter"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/nameEnterList"
+        android:layout_width="218dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="196dp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

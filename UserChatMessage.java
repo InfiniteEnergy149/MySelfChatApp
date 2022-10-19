@@ -1,5 +1,7 @@
 package com.example.myselfchatapp;
 
+import android.util.Log;
+
 public class UserChatMessage {
     Boolean sendRecieve;
     String name;
@@ -24,6 +26,7 @@ public class UserChatMessage {
     }
 
     public String getName() {
+
         return name;
     }
 

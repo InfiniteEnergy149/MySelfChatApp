@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
-        super(context, "myselfchatapp5.db", null, 1);
+        super(context, "myselfchatapp.db", null, 1);
     }
 
     private static final String USER_TABLE_NAME = "user_data";
@@ -180,17 +180,17 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
     }
-/*
-    public Boolean updateGroupData(String name) {
+
+    public Boolean updateGroupData(String id, String name) {
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         if (name == null) {
             return false;
         }else {
-            Cursor cursor = DB.rawQuery("Select * from " + GROUP_TABLE_NAME + " where name = ?", new String[]{name});
+            Cursor cursor = DB.rawQuery("Select * from " + GROUP_TABLE_NAME + " where _id = ?", new String[]{id});
             if (cursor.getCount() > 0) {
-                long result = DB.update(GROUP_TABLE_NAME, contentValues, "name=?", new String[]{name});
+                long result = DB.update(GROUP_TABLE_NAME, contentValues, "_id=?", new String[]{id});
                 if (result == -1) {
                     return false;
                 } else {
@@ -202,19 +202,21 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateGroupData(Integer groupUserXId, Integer userId, Integer groupId, Integer lastMessageId) {
+
+
+    public Boolean updateGroupUserXData(String groupUserXId, Integer userId, Integer groupId, Integer lastMessageId) {
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("password", password);
-        contentValues.put("age", age);
-        contentValues.put("description", description);
-        if (name == null||password == null||age == null||description==null) {
+        contentValues.put("user_id", userId);
+        contentValues.put("group_id", groupId);
+        contentValues.put("last_message_id", lastMessageId);
+
+        if (userId == null||groupId == null) {
             return false;
         }else {
-            Cursor cursor = DB.rawQuery("Select * from " + USER_TABLE_NAME + " where name = ?", new String[]{name});
+            Cursor cursor = DB.rawQuery("Select * from " + GROUP_USER_X_TABLE_NAME + " where _id = ?", new String[]{groupUserXId});
             if (cursor.getCount() > 0) {
-                long result = DB.update(USER_TABLE_NAME, contentValues, "name=?", new String[]{name});
+                long result = DB.update(GROUP_USER_X_TABLE_NAME, contentValues, "_id=?", new String[]{groupUserXId});
                 if (result == -1) {
                     return false;
                 } else {
@@ -224,7 +226,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 return false;
             }
         }
-    }*/
+    }
 
     public Boolean deleteUserData (String id) {
         SQLiteDatabase DB = this.getWritableDatabase();
@@ -255,11 +257,11 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public Boolean deleteGroupUserXData (String userId) {
+    public Boolean deleteGroupUserXData (String id) {
         SQLiteDatabase DB = this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from " + GROUP_USER_X_TABLE_NAME+ " where user_id = ?", new String[]{userId});
+        Cursor cursor = DB.rawQuery("Select * from " + GROUP_USER_X_TABLE_NAME+ " where _id = ?", new String[]{id});
         if (cursor.getCount() > 0) {
-            long result = DB.delete(GROUP_USER_X_TABLE_NAME, "user_id=?", new String[]{userId});
+            long result = DB.delete(GROUP_USER_X_TABLE_NAME, "_id=?", new String[]{id});
             if (result == -1) {
                 return false;
             } else {

@@ -133,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayList<Integer> groupId =  new ArrayList<>();
         ArrayList<Integer> groupUserXId = new ArrayList<>();
         while (resGroupUserX.moveToNext()){
-            if (resGroupUserX.getString(1).equals(userId)) {//if id matches current id
+            if (resGroupUserX.getString(1).equals(userId)&& resGroupUserX.getString(0)!="1") {//if id matches current id and skip if group chat
                 groupUserXId.add(resGroupUserX.getInt(0));//add groupUserXId to arrayList
                 if (!groupId.contains(resGroupUserX.getInt(2))) {//avoid duplicates
                     groupId.add(resGroupUserX.getInt(2));//add group id to arraylist
@@ -144,7 +144,8 @@ public class ProfileActivity extends AppCompatActivity {
         for (int i = 0;i<groupId.size();i++){//delete by groupId
             DB.deleteGroupData(groupId.get(i).toString());
         }
-        for (int i = 0;i<groupUserXId.size();i++){//delete by userId
+
+        for (int i = 0;i<groupUserXId.size();i++){//delete by groupUserXId
             DB.deleteGroupUserXData(groupUserXId.get(i).toString());
         }
     }

@@ -108,6 +108,11 @@ ArrayList<UserChatDisplay> userChatDisplays;
                 break;
         }
         //orange,yellow,green,blue,pink,purple
+        if (userChatDisplays.get(position).getNewMessage() == true) {
+            holder.tvNotification.setText("NEW MESSAGE");
+        }else{
+            holder.tvNotification.setText("");
+        }
     }
     @Override
     public int getItemCount() {
@@ -117,13 +122,14 @@ ArrayList<UserChatDisplay> userChatDisplays;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
-         TextView tvName,tvColour;
+         TextView tvName,tvColour,tvNotification;
          CardView cardViewLayout;
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             imageView = itemView.findViewById(R.id.logoView);
             tvName = itemView.findViewById(R.id.content);
             tvColour = itemView.findViewById(R.id.time);
+            tvNotification = itemView.findViewById(R.id.notification);
             cardViewLayout = itemView.findViewById(R.id.cardViewRV);
 
             itemView.setOnClickListener(new View.OnClickListener() {

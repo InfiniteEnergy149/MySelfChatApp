@@ -55,6 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Boolean nameCheck = true;
                 String nameTXT = name.getText().toString();
                 String passwordTXT = password.getText().toString();
                 Integer ageTXT = Integer.valueOf(age.getText().toString());
@@ -62,8 +63,17 @@ public class SignUpActivity extends AppCompatActivity {
                 String logoTXT = spinDropLogoList.getSelectedItem().toString();
                 String colourTXT = spinDropColourList.getSelectedItem().toString();
                 //Add tables to group and groupUserX
-                createUserGroups(nameTXT,DB);
-                if ((Integer.valueOf(age.getText().toString()) instanceof Integer)) {
+                Cursor resName = DB.getUserData();
+                //Don't insert if name already exists
+                while(resName.moveToNext()){
+                    if (nameTXT.equals(resName.getString(1))){
+                        nameCheck = false;
+                        Log.d("break",nameCheck.toString());
+                    }
+                }
+
+                if (Integer.valueOf(age.getText().toString()) instanceof Integer && nameCheck == true) {
+                    createUserGroups(nameTXT,DB);
                     Boolean checkInsertData = DB.insertUserData(nameTXT, passwordTXT, ageTXT, descriptionTXT, logoTXT, colourTXT);
                     if (checkInsertData == true) {
                         Toast.makeText(SignUpActivity.this, "New Entry Inserted", Toast.LENGTH_SHORT).show();
@@ -71,8 +81,12 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SignUpActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+                    if (nameCheck = false) {
+                        Toast.makeText(SignUpActivity.this, "New Entry Not Inserted. Name Already In Use", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(SignUpActivity.this, "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
 
+                    }
                 }
 
                 Intent myIntent = new Intent(SignUpActivity.this,SignInActivity.class);
@@ -136,11 +150,11 @@ public class SignUpActivity extends AppCompatActivity {
         //ArrayList of all user data
         ArrayList<String> holdUsers = new ArrayList<>();
         ArrayList<ArrayList<String>> sortUsers = new ArrayList<>();
-        Integer newUserId = 0;
+        Integer newUserId = 1;
         Cursor resGetUser = DB.getUserData();
         String newUserName = name;
 
-        while (resGetUser.moveToNext()) {
+        while (resGetUser.moveToNext()) {//skipped if resGetUser is empty
             holdUsers.add(resGetUser.getString(0));
             holdUsers.add(resGetUser.getString(1));
             holdUsers.add(resGetUser.getString(2));
@@ -153,20 +167,26 @@ public class SignUpActivity extends AppCompatActivity {
             newUserId = Integer.valueOf(resGetUser.getString(0))+1;
         }
 
+        DB.insertGroupUserXData(newUserId,1,"");//Add user to group chat
 
         Cursor resNewGroup = DB.getGroupData();
+        if (resNewGroup.getCount() == 0){
+            DB.insertGroupData("Everyone Group Chat");
+        }
         Integer lastGroupId;
         for (int i = 0; i < sortUsers.size(); i++) {
             //Alphabetical order in naming of groups
             List<String> newNames = Arrays.asList(sortUsers.get(i).get(1),newUserName);
             Collections.sort(newNames);
+
+
                 DB.insertGroupData(newNames.get(0) + " & " + newNames.get(1));
                 resNewGroup = DB.getGroupData();
                 resNewGroup.moveToLast();
                 lastGroupId = resNewGroup.getInt(0);
                 DB.insertGroupUserXData(Integer.valueOf(sortUsers.get(i).get(0)), lastGroupId, "");
                 DB.insertGroupUserXData(newUserId, lastGroupId, "");
-            }
         }
 
+    }
 }

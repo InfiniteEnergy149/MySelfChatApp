@@ -6,12 +6,10 @@ Tables
 Scenes
 
 General Notes:
-Let user pick name from list? (To log in)
-1 on 1 chats
-main group chat (everyone)
-see notifications
-create/delete smaller group chats
-No duplicate names
+Show notifications(Make text bold if new message)
+//Save last known message everytime a message is sent or when you enter
+Replace text colour in displayActivity  with description
+Improve design
 
 
 Table: User
@@ -73,8 +71,9 @@ Allow user to send and look at messages
 Allow user to scroll up and down messages
 
 Scene Display:
+Create group chat
 Show prompt to Log Out, Profile, Settings
 Show notifications
-Show link to group chat
+
 Show link to chat with other users (click link to chat)
 -Other users are shown with their own colour schema
