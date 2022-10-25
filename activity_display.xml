@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blnkbkg"
     tools:context=".DisplayActivity">
 
     <TextView
@@ -34,6 +35,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="29dp"
         android:text="PROFILE"
+        android:backgroundTint="@color/blue"
+        app:cornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,6 +47,8 @@
         android:layout_marginTop="29dp"
         android:layout_marginEnd="16dp"
         android:text="Log Out"
+        android:backgroundTint="@color/blue"
+        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,6 +59,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="EVERYONE GROUP CHAT"
+        android:backgroundTint="@color/blue"
+        app:cornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeUser" />
 

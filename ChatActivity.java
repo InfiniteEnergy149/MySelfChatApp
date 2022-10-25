@@ -25,7 +25,7 @@ import java.util.Locale;
 public class ChatActivity extends AppCompatActivity {
     ArrayList<UserChatMessage> userChatMessage = new ArrayList<>();
     Integer currentUserId, clickedUserId,groupChatId;
-    TextView notice;
+    TextView notice,groupNameTitle;
     EditText messageContent;
     Button sendClick,backClick;
     Integer messageGroupId = 0;
@@ -50,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
         messageContent = findViewById(R.id.contentEnter);
         sendClick = findViewById(R.id.sendBtn);
         backClick = findViewById(R.id.chatBackBtn);
+        groupNameTitle = findViewById(R.id.groupName);
 
         if (groupChatId == 1) {//group chat selected
             notice.setText("Group Chat - user:" + currentUserId );
@@ -58,6 +59,15 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         messageGroupId = Integer.valueOf(setUserChatMessage(groupChatId));//Read details from database (Check if send or recieve)
+
+        //Set Group Name
+        Cursor groupIdRes = DB.getGroupData();
+        while(groupIdRes.moveToNext()){
+            if (groupIdRes.getInt(0)==(messageGroupId)){
+                groupNameTitle.setText("Group Name: " + groupIdRes.getString(1));
+            }
+        }
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView2);
         Chat_RecyclerViewAdapter adapter = new Chat_RecyclerViewAdapter(this, userChatMessage);

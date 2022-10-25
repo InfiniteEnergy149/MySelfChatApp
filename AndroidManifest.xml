@@ -26,10 +26,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SignInActivity"
-            android:exported="true">
-        </activity>
-        <activity
             android:name=".SignUpActivity"
             android:exported="true">
         </activity>

@@ -1,5 +1,6 @@
 package com.example.myselfchatapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button insert, update, delete, view;
     DBHelper DB;
     Spinner spinDropLogoList,spinDropColourList;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         age = findViewById(R.id.ageEnter);
         description = findViewById(R.id.descriptionEnter);
         insert = findViewById(R.id.addUserBtn);
-        view = findViewById(R.id.showDataBtn);
+        view = findViewById(R.id.SignUpBackBtn);
 
 
         spinDropLogoList = findViewById(R.id.logoDropList);
@@ -89,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                Intent myIntent = new Intent(SignUpActivity.this,SignInActivity.class);
+                Intent myIntent = new Intent(SignUpActivity.this,MainActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -120,7 +122,9 @@ public class SignUpActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cursor res = DB.getUserData();
+                Intent myIntent = new Intent(SignUpActivity.this,MainActivity.class);
+                startActivity(myIntent);
+             /*   Cursor res = DB.getUserData();
                 if(res.getCount()==0){
                     Toast.makeText(SignUpActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
                     return;
@@ -140,7 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
                 builder.setCancelable(true);
                 builder.setTitle("User Entries");
                 builder.setMessage(buffer.toString());
-                builder.show();
+                builder.show();*/
             }
         });
 
